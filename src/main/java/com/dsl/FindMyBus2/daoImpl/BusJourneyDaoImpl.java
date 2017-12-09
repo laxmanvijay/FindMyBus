@@ -91,14 +91,19 @@ public class BusJourneyDaoImpl implements BusJourneyDao{
         Iterator endi=end.iterator();
 
         List<BusJourney> finalList=new ArrayList<>();
-
-        while(starti.hasNext()&&endi.hasNext()){
-            BusJourney s=(BusJourney)starti.next();
-            BusJourney e=(BusJourney)endi.next();
+        BusJourney s=new BusJourney(),e=new BusJourney();
+        while(starti.hasNext()){    
+            if(starti.hasNext()){        
+            s=(BusJourney)starti.next();
+            }
+            if(endi.hasNext()){
+             e=(BusJourney)endi.next();
+            }
             if(s.getBusName()==e.getBusName()){
                 finalList.add(s);
             }
         }
+    
         return finalList;
     }
 
