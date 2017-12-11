@@ -14,9 +14,11 @@ public interface BusJourneyDao{
 
 
     List<BusJourney> getBusByCityName(String cityName);
+    List<BusJourney> getCities(String name);
     BusJourney getBusJourneyById(int id);
     BusJourney getBusJourneyByBusName(String busName);
     List<BusJourney> getBusJourneyByFromAndToPoint(String from,String to);
+   
 }
 
 

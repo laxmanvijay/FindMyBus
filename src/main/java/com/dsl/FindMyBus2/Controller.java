@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.util.*;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 public class Controller {
@@ -33,7 +34,7 @@ public class Controller {
 
 	@CrossOrigin(origins="*")
 	@PostMapping("/getBus")
-	public String home(@RequestBody SearchQuery sq) throws JsonProcessingException{
+	public String getBus(@RequestBody SearchQuery sq) throws JsonProcessingException{
       
             ObjectMapper objectMapper = new ObjectMapper();
        
@@ -42,8 +43,8 @@ public class Controller {
                 List<BusJourney> bj=busjourneydao.getBusJourneyByFromAndToPoint(sq.getFrom(), sq.getTo());
 
                 List<Bus> b=new ArrayList<>();
-
-                 Iterator bji=bj.iterator();
+                
+                Iterator bji=bj.iterator();
 
                 while(bji.hasNext()){
                     BusJourney busj=(BusJourney)bji.next();
@@ -56,8 +57,32 @@ public class Controller {
                return arrayToJson; 
        
     }
+
+    @CrossOrigin(origins="*")
+    @GetMapping("/getCities")
+    public String getCities(@RequestParam("name") String name)throws JsonProcessingException{
+
+                 ObjectMapper objectMapper = new ObjectMapper();
+        
+                objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+                List<BusJourney> bj=busjourneydao.getCities(name);
+                List<String> cities=new ArrayList<>();
+
+                Iterator bji=bj.iterator();
+
+                while(bji.hasNext()){
+                    BusJourney busj=(BusJourney)bji.next();
+                    if(!cities.contains(busj.getCities())){
+                    cities.add(busj.getCities());
+                    }
+                }
+
+                String arrayToJson = objectMapper.writeValueAsString(cities);
+                
+                 return arrayToJson; 
+
+    }
+
     
-
-
-
 }

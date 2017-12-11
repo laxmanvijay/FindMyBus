@@ -64,6 +64,15 @@ public class BusJourneyDaoImpl implements BusJourneyDao{
         return q.getResultList();
     }
 
+    @Override
+	public List<BusJourney> getCities(String name) {
+        String hql="FROM BusJourney WHERE cities LIKE '"+name+"%'";
+        Query q=em.createQuery(hql);
+        //q.setParameter("name",name);
+        return q.getResultList();
+    }
+
+   
 	@Override
 	public BusJourney getBusJourneyById(int id) {
 		return (BusJourney)em.find(BusJourney.class, id);
@@ -106,5 +115,11 @@ public class BusJourneyDaoImpl implements BusJourneyDao{
     
         return finalList;
     }
+
+
+
+
+
+
 
 }
